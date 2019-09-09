@@ -26,20 +26,25 @@ Currently, pyListener has three Python files,
 
 One can test sound comparision functionality with pyListenerLib.py without wxPython frame with the below code.
 
+```
 from os import getcwd, path
 from glob import glob
 import pyListenerLib as PLL
+
 pl = PLL.PyListener(parent=None, frame=None, logFile='log/testLog.txt', cwd=getcwd())
+
 tSpAD, __, templP = pl.listen(flag='templateFolder', wavFP='input/sample_phee')
+
 tParams = {}
 for param in pl.compParamList:
     tParams[param+'_min'] = templP[param+"_min"]
     tParams[param+'_max'] = templP[param+"_max"]
+
 fLists = glob('input/test/m_*.wav')
 for fp in sorted(fLists): # loop through WAV files
     spAD, __, sfParams = pl.listen(flag='wavFile', wavFP=fp) # read & analyze a WAV file
     flag, rsltTxt = pl.compareParamsOfSF2T(sfParams, tParams, path.basename(fp)) # compare analyzed parameters of the current WAV and template WAV
     print(rsltTxt) # print output; this text is also recorded in the log file by 'compareParamsOfSF2T' function.
-
+```
 
 For more information, please read 'readme.ipynb'.
