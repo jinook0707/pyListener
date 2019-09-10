@@ -39,4 +39,11 @@ pl.compareWAV2Template('input/test/m_test.wav') # comparison
 The given test file, 'm_test.wav', has several alternating *phee* calls (five calls) and *rapid fire Tsik* calls (4 calls) with silent intervals.
 
 
-For more information, please read 'readme.ipynb'.
+## For more information, 
+you can install Jupyter notebook (see https://jupyter.readthedocs.io/en/latest/install.html),
+run Jupyter notebook
+```
+jupyter notebook
+```
+then, click 'readme.ipynb' in the opened browser for testing interactive codes.
+
