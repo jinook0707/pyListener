@@ -27,24 +27,16 @@ Currently, pyListener has three Python files,
 One can test sound comparision functionality with pyListenerLib.py without wxPython frame with the below code.
 
 ```
-from os import getcwd, path
-from glob import glob
+from os import getcwd
 import pyListenerLib as PLL
 
-pl = PLL.PyListener(parent=None, frame=None, logFile='log/testLog.txt', cwd=getcwd())
-
-tSpAD, __, templP = pl.listen(flag='templateFolder', wavFP='input/sample_phee')
-
-tParams = {}
-for param in pl.compParamList:
-    tParams[param+'_min'] = templP[param+"_min"]
-    tParams[param+'_max'] = templP[param+"_max"]
-
-fLists = glob('input/test/m_*.wav')
-for fp in sorted(fLists): # loop through WAV files
-    spAD, __, sfParams = pl.listen(flag='wavFile', wavFP=fp) # read & analyze a WAV file
-    flag, rsltTxt = pl.compareParamsOfSF2T(sfParams, tParams, path.basename(fp)) # compare analyzed parameters of the current WAV and template WAV
-    print(rsltTxt) # print output; this text is also recorded in the log file by 'compareParamsOfSF2T' function.
+pl = PLL.PyListener(parent=None, frame=None, logFile='log/testLog.txt', cwd=getcwd()) # initialize pyListener class
+tSpAD, __, templP = pl.listen(flag='templateFolder', wavFP='input/sample_phee') # make template with phee calls
+pl.compareWAV2Template('input/test/m_test.wav') # comparison
 ```
+
+*compareWAV2Template* function accespts a file path of a WAV file in its argument and treat this WAV file as a recording with a microphone. Therefore, it does not compare entire WAV file with template. Instead, it treats the WAV file as if it's streaming from microphone, capturing a sound fragment and comparing each captured sound with template data.
+The given test file, 'm_test.wav', has several alternating *phee* calls (five calls) and *rapid fire Tsik* calls (4 calls) with silent intervals.
+
 
 For more information, please read 'readme.ipynb'.
