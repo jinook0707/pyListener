@@ -20,11 +20,12 @@ In short, PyListener app does the below.<br>
 
 Currently, pyListener has three Python files, 
 
-- pyListener.py: pyListener app, using wxPython.
-- pyListenerLib.py: This contains main functionalities of pyListener such as sound loading, comparing and saving. This can be used without loading wxPython frame in pyListener.py.
-- fFuncNClasses.py: Simple functions and a dialog class to be used in multiple places in the above files.
+- **pyListener.py**: pyListener app, using wxPython.
+- **pyListenerLib.py**: This contains main functionalities of pyListener such as sound loading, comparing and saving. This can be used without loading wxPython frame in **pyListener.py**.
+- **pyLSpectrogram.py**: This is for drawing real-time spectrogram. Only 'SpectrogramPanel' is used in **pyListener.py** (There is a wxPython frame in it to run **pyLSpectrogram.py** separately).
+- **fFuncNClasses.py**: Simple functions and a dialog class to be used in multiple places in the above files.
 
-One can test sound comparision functionality with pyListenerLib.py without wxPython frame with the below code.
+One can test sound comparision functionality with **pyListenerLib.py** without wxPython frame with the below code.
 
 ```
 from os import getcwd
