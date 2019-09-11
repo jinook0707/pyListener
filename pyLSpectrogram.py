@@ -155,7 +155,7 @@ class PyLSpectrogramFrame(wx.Frame):
                         bgCol="#cccccc", 
                         style=wx.TAB_TRAVERSAL|wx.SUNKEN_BORDER) 
         # spectrogram panel
-        pi["sp"] = dict(pos=(0, 0), 
+        pi["sp"] = dict(pos=(0, pi["tUI"]["sz"][1]), 
                         sz=(w_sz[0], int(PLL.INPUT_FRAMES_PER_BLOCK/2)), 
                         bgCol="#cccccc", 
                         style=wx.TAB_TRAVERSAL|wx.SUNKEN_BORDER)
