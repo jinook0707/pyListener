@@ -3,11 +3,19 @@
 """
 Spectrogram:
 Drawing real-time spectrogram using PyListener class in pyListenerLib.py.
+This script has its own wxPython frame, PyLSpectrogramFrame, so that
+one can run this script as its.
+If one wants to use a different frame, use only 'SpectrogramPanel (wx.Panel)'.
+
 An open-source software written in Python, programmed and tested in
 Mac OSX 10.13.
 
 Jinook Oh, Cognitive Biology department, University of Vienna
 September 2019.
+
+Dependency:
+    wxPython (4.0), 
+    Numpy (1.17), 
 
 ------------------------------------------------------------------------
 Copyright (C) 2019 Jinook Oh, W. Tecumseh Fitch 

@@ -7,6 +7,13 @@ Jinook Oh, Cognitive Biology department, University of Vienna<br>
 Contact: jinook0707@gmail.com, tecumseh.fitch@univie.ac.at<br>
 September 2019.
 
+## Dependency
+- **wxPython** (4.0)
+- **pyAudio** (0.2)
+- **NumPy** (1.17)
+- **SciPy** (1.3)
+- **Scikit-image** (0.15)
+
 
 ## What it does
 

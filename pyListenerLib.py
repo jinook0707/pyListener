@@ -12,6 +12,13 @@ This was programmed and tested in macOS 10.13.
 Jinook Oh, Cognitive Biology department, University of Vienna
 September 2019.
 
+Dependency:
+    wxPython (4.0),
+    pyAudio (0.2),
+    NumPy (1.17),
+    SciPy (1.3),
+    Scikit-image (0.15),
+
 ------------------------------------------------------------------------
 Copyright (C) 2019 Jinook Oh, W. Tecumseh Fitch 
 - Contact: jinook.oh@univie.ac.at, tecumseh.fitch@univie.ac.at
@@ -46,7 +53,7 @@ from scipy.ndimage.measurements import center_of_mass
 from scipy.signal import correlate
 from skimage import filters
 from skimage import transform 
-from pyentrp import entropy as ent
+#from pyentrp import entropy as ent
 
 from fFuncNClasses import chkFPath, writeFile, get_time_stamp
 from fFuncNClasses import receiveDataFromQueue
@@ -95,7 +102,7 @@ class PyListener(object):
         self.pKeys = [
                         'duration', 'summedAmp', 'summedAmpRatio', 
                         'cmInColList', 'centerOfMassX', 'centerOfMassY', 
-                        'cmxN', 'cmyN', 'permEnt', 
+                        'cmxN', 'cmyN', #'permEnt', 
                         'avgNumDataInCol', 'lowFreqRow', 'lowFreq', 
                         'highFreqRow', 'highFreq', 'distLowRow2HighRow', 
                         #'corr2auto'
@@ -133,7 +140,7 @@ class PyListener(object):
                         duration='Duration', 
                         cmxN='CenterOfMass-X (0.0-1.0)', 
                         cmyN='CenterOfMass-Y (0.0-1.0)',
-                        permEnt='Permutation Entropy', 
+                        #permEnt='Permutation Entropy', 
                         avgNumDataInCol='Avg. Num. Data in a column', 
                         lowFreq='Low frequency', 
                         highFreq='High frequency', 
@@ -895,9 +902,9 @@ class PyListener(object):
         params["cmxN"] = params["centerOfMassX"]/data.shape[1]
         params["cmyN"] = 1.0-params["centerOfMassY"]/data.shape[0]
         ### calculate permutation entropy value
-        params["permEnt"] = ent.permutation_entropy(params["cmInColList"], 
-                                                    order=5, 
-                                                    normalize=True)
+        #params["permEnt"] = ent.permutation_entropy(params["cmInColList"], 
+        #                                            order=5, 
+        #                                            normalize=True)
         ### average number of non-zero data points in columns
         if nonZeroPts == []: params["avgNumDataInCol"] = -1
         else: params["avgNumDataInCol"] = np.average(nonZeroPts)
@@ -1052,16 +1059,17 @@ class PyListener(object):
             minKey = key + "_min"
             maxKey = key + "_max"
             if key in self.compParamList:
-                if key == 'permEnt': # cmInColList was adjusted in 
-                  # this function. Calculate its permutation entroy here.
-                    tp = tParams["cmInColList"]
-                    tParams[key] = ent.permutation_entropy(tp,
-                                                           order=5,
-                                                           normalize=True)
-                    tParams[minKey] = tParams[key] - initM[minKey]
-                    tParams[maxKey] = tParams[key] + initM[maxKey]
+                #if key == 'permEnt': # cmInColList was adjusted in 
+                #  # this function. Calculate its permutation entroy here.
+                #    tp = tParams["cmInColList"]
+                #    tParams[key] = ent.permutation_entropy(tp,
+                #                                           order=5,
+                #                                           normalize=True)
+                #    tParams[minKey] = tParams[key] - initM[minKey]
+                #    tParams[maxKey] = tParams[key] + initM[maxKey]
+                #elif key in self.indCPL: # This parameter is not relevant 
                 
-                elif key in self.indCPL: # This parameter is not relevant 
+                if key in self.indCPL: # This parameter is not relevant 
                   # to changing WAV data. Simply, get values from indCPRange.
                     tParams[minKey] = self.indCPRange[minKey]
                     tParams[maxKey] = self.indCPRange[maxKey]

@@ -1,7 +1,12 @@
 # coding: UTF-8
 """
 Frequenty used functions and classes
+
+Dependency:
+    wxPython (4.0), 
+    Numpy (1.17), 
 """
+
 import sys, errno
 from os import path, strerror
 from datetime import datetime

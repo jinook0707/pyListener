@@ -7,10 +7,14 @@ Currently, its main functionality is to listen to sound from microphone
 and save a recognized sound as WAV file, when it is similar with a 
 loaded template sound.
 
-This was programmed and tested in macOS 10.13.
+This program was coded and tested in macOS 10.13.
 
 Jinook Oh, Cognitive Biology department, University of Vienna
 September 2019.
+
+Dependency:
+    wxPython (4.0), 
+    Numpy (1.17), 
 
 ------------------------------------------------------------------------
 Copyright (C) 2019 Jinook Oh, W. Tecumseh Fitch 
@@ -38,7 +42,6 @@ from copy import copy
 import wx
 import wx.lib.scrolledpanel as SPanel 
 import numpy as np
-from skimage import filters
 
 import pyListenerLib as PLL
 import pyLSpectrogram as PLSp
