@@ -1,7 +1,7 @@
 # coding: UTF-8
 
 """
-PyListener
+pyListener
 An open-source software written in Python for sound comparison. 
 Currently, its main functionality is to listen to sound from microphone
 and save a recognized sound as WAV file, when it is similar with a 
@@ -49,7 +49,7 @@ from fFuncNClasses import GNU_notice, writeFile, get_time_stamp
 from fFuncNClasses import show_msg, set_img_for_btn, getWXFonts
 from fFuncNClasses import setupStaticText
 
-__version__ = 'v.0.2'
+__version__ = '0.2'
 '''
 # 0.1: Initial development - 2018.July
 # 0.2: Changed to comparing parameters instead of correlation to 
@@ -143,7 +143,7 @@ class PyListenerFrame(wx.Frame):
 
         ### init frame
         wx.Frame.__init__(self, None, -1, 
-                          "PyListener - %s"%(__version__), 
+                          "PyListener - v.%s"%(__version__), 
                           pos = w_pos, size = self.w_sz) 
         self.SetBackgroundColour('#333333')
         self.updateFrameSize()

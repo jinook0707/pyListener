@@ -151,6 +151,7 @@ def load_img(fp, size=(-1,-1)):
     """
     if DEBUG: print("fFuncNClasses.load_img()")
     
+    chkFPath(fp) # chkeck whether file exists
     tmp_null_log = wx.LogNull() # for not displaying 
       # the tif library warning
     img = wx.Image(fp, wx.BITMAP_TYPE_ANY)
@@ -183,9 +184,9 @@ def set_img_for_btn(imgPath, btn, imgPCurr=None, imgPDis=None,
     imgPaths = dict(all=imgPath, current=imgPCurr, disabled=imgPDis,
                     focus=imgPFocus, pressed=imgPPressed)
     for key in imgPaths.keys():
-        imgPath = imgPaths[key]
-        if imgPath == None: continue
-        img = load_img(imgPath)
+        fp = imgPaths[key]
+        if fp == None: continue
+        img = load_img(fp)
         bmp = wx.Bitmap(img)
         if key == 'all': btn.SetBitmap(bmp)
         elif key == 'current': btn.SetBitmapCurrent(bmp)

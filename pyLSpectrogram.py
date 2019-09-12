@@ -47,7 +47,7 @@ import numpy as np
 import pyListenerLib as PLL 
 from fFuncNClasses import GNU_notice, show_msg, getWXFonts, setupStaticText
 
-__version__ = 0.1
+__version__ = "0.1"
 DEBUG = False 
 
 #=======================================================================
@@ -185,7 +185,7 @@ class PyLSpectrogramFrame(wx.Frame):
 
         ### init frame
         wx.Frame.__init__(self, None, -1, 
-                          "PySpectrogram - %s"%(__version__), 
+                          "PySpectrogram - v.%s"%(__version__), 
                           pos = w_pos, size = self.w_sz) 
         self.SetBackgroundColour('#333333')
 
