@@ -27,24 +27,41 @@ def GNU_notice(idx=0):
 
     Returns:
         None
+
+    Examples:
+        >>> GNU_notice(0)
+        Copyright (c) ...
+        ...
+        run this program with option '-c' for details.
     """
     if DEBUG: print("fFuncNClasses.GNU_notice()")
 
     if idx == 0:
         year = datetime.now().year
-        print('''
-Copyright (c) %i Jinook Oh, W. Tecumseh Fitch.
-This program comes with ABSOLUTELY NO WARRANTY; for details run this program with the option `-w'.
-This is free software, and you are welcome to redistribute it under certain conditions; run this program with the option `-c' for details.
-'''%year)
+        msg = "Copyright (c) %i Jinook Oh, W. Tecumseh Fitch.\n"%(year)
+        msg += "This program comes with ABSOLUTELY NO WARRANTY;"
+        msg += " for details run this program with the option `-w'."
+        msg += "This is free software, and you are welcome to redistribute"
+        msg += " it under certain conditions;"
+        msg += " run this program with the option `-c' for details."
     elif idx == 1:
-        print('''
-THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
-''')
+        msg = "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED"
+        msg += " BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING"
+        msg += " THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE"
+        msg += " PROGRAM 'AS IS' WITHOUT WARRANTY OF ANY KIND, EITHER"
+        msg += " EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE"
+        msg += " IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A"
+        msg += " PARTICULAR PURPOSE."
+        msg += " THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE"
+        msg += " PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU"
+        msg += " ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR"
+        msg += " CORRECTION."
     elif idx == 2:
-        print('''
-You can redistribute this program and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-''')
+        msg = "You can redistribute this program and/or modify it under" 
+        msg += " the terms of the GNU General Public License as published"
+        msg += " by the Free Software Foundation, either version 3 of the"
+        msg += " License, or (at your option) any later version."
+    print(msg)
 
 #-----------------------------------------------------------------------
 
@@ -57,6 +74,12 @@ def chkFPath(fp):
 
     Returns:
         None
+    
+    Examples:
+        >>> chkFPath('./test/test1.txt')
+
+    Raises:
+       FileNotFoundError: When 'fp' is not a valid file-path. 
     """
     if DEBUG: print("fFuncNClasses.chkFPath()")
     
@@ -76,6 +99,10 @@ def get_time_stamp(flag_ms=False):
 
     Returns:
         ts (str): Timestamp string
+
+    Examples:
+        >>> print(get_time_stamp())
+        2019_09_10_16_21_56
     """
     if DEBUG: print("fFuncNClasses.get_time_stamp()")
     
@@ -91,38 +118,32 @@ def get_time_stamp(flag_ms=False):
 
 #-----------------------------------------------------------------------
 
-def writeFile(file_path, txt='', mode='a', method='', arr=None):
+def writeFile(file_path, txt='', mode='a'):
     """ Function to write a text or numpy file.
 
     Args:
         file_path (str): File path for output file.
         txt (str): Text to print in the file.
         mode (str, optional): File opening mode.
-        method (str, optional): Whether text or np (numpy).
-          In Numpy case, 'save' or 'savetxt'.
-        arr (None/ numpy.array, optional): Numpy array to save.
 
     Returns:
         None
+
+    Examples:
+        >>> writeFile('logFile.txt', 'A log is written.', 'a')
     """
-    if DEBUG: print("fFuncNClasses.writeFile()")
+    if DEBUG: print("writeFile()")
     
     f = open(file_path, mode)
-    if method == '' or method.startswith('txt'):
-        f.write(txt)
-    else:
-        m = method.split('_')
-        if m[0] == 'np': # saving numpy array into a file
-            if m[1] == 'save': # binary '.npy'
-                np.save(f, arr)
-            elif m[1] == 'savetxt': # text file.
-                np.savetxt(f, arr)
+    f.write(txt)
     f.close()
 
 #-----------------------------------------------------------------------
 
 def str2num(s, flag="int"):
     """ Function to convert string to an integer or a float number.
+    Use when a value of variable should be determined 
+    as string, integer or float.
 
     Args: 
         flag (str): int or float.
@@ -130,6 +151,14 @@ def str2num(s, flag="int"):
     Returns:
         oNum (None/ int/ float):
           Converted number or None (when it failed to convert).
+
+    Examples:
+        >>> print(str2num('test'))
+        None
+        >>> print(str2num('3.0', 'int'))
+        None
+        >>> print(str2num('3.0', 'float'))
+        3.0
     """
     if DEBUG: print("fFuncNClasses.str2num()")
     
@@ -148,6 +177,13 @@ def load_img(fp, size=(-1,-1)):
 
     Args:
         fp (str): File path of an image to load. 
+
+    Returns:
+        img (wx.Image)
+
+    Examples:
+        >>> img1 = load_img("test.png")
+        >>> img2 = load_img("test.png", size=(300,300))
     """
     if DEBUG: print("fFuncNClasses.load_img()")
     
@@ -178,6 +214,9 @@ def set_img_for_btn(imgPath, btn, imgPCurr=None, imgPDis=None,
 
     Returns:
         btn (wx.Button): Button after processing.
+
+    Examples:
+        >>> btn = set_img_for_btn('btn1img.png', wx.Button(self, -1, 'testButton'))
     """
     if DEBUG: print("fFuncNClasses.set_img_for_btn()")
     
@@ -209,6 +248,9 @@ def getWXFonts(initFontSz=8, numFonts=5, fSzInc=2, fontFaceName=""):
     Returns:
         fonts (list): List of several fonts (wx.Font)
 
+    Examples:
+        >>> fonts = getWXFonts(8, 3)
+        >>> fonts = getWXFonts(8, 3, 5, 'Arial')
     """
     if DEBUG: print("fFuncNClasses.getWXFonts()")
 
@@ -249,6 +291,14 @@ def setupStaticText(panel, label, name=None, size=None,
 
     Returns:
         wx.StaticText: Created wx.StaticText object.
+
+    Examples :
+        (where self.panel is a wx.Panel, and self.fonts[2] is a wx.Font object)
+        >>> sTxt1 = setupStaticText(self.panel, 'test', font=self.fonts[2])
+        >>> sTxt2 = setupStaticText(self.panel, 
+                                    'Long text................................',
+                                    font=self.fonts[2], 
+                                    wrapWidth=100)
     """ 
     if DEBUG: print("fFuncNClasses.setupStaticText()")
 
@@ -272,6 +322,10 @@ def convert_idx_to_ordinal(number):
 
     Returns:
         number (str): Converted string
+
+    Examples:
+        >>> convert_idx_to_ordinal(0)
+        '1st'
     """
     if DEBUG: print("fFuncNClasses.convert_idx_to_ordinal()")
     
@@ -291,6 +345,9 @@ def receiveDataFromQueue(q, logFile=''):
 
     Returns:
         rData (): Data received from the given queue. 
+
+    Examples:
+        >>> receiveDataFromQueue(Queue(), 'log.txt')
     """
     if DEBUG: print("fFuncNClasses.receiveDataFromQueue()")
 
@@ -315,6 +372,9 @@ def show_msg(msg, size=(400,200), title="Message"):
 
     Returns:
         None
+
+    Examples:
+        >>> show_msg('Some alert message.', title='Alert!')
     """
     if DEBUG: print("fFuncNClasses.show_msg()")
     
@@ -361,7 +421,9 @@ class PopupDialog(wx.Dialog):
         if iconFP != "" and path.isfile(iconFP) == True:
             bmp = wx.Bitmap(load_img(iconFP))
             icon_sBmp = wx.StaticBitmap(panel, -1, bmp)
-            gbs.Add(icon_sBmp, pos=(row,col), flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
+            gbs.Add(icon_sBmp, 
+                    pos=(row,col), 
+                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
             bmp_sz = icon_sBmp.GetBitmap().GetSize()
             col += 1 
         else:
@@ -369,23 +431,42 @@ class PopupDialog(wx.Dialog):
             bmp_sz = (0, 0)
         sTxt = wx.StaticText(panel, -1, label = inString, pos = (20, 20))
         sTxt.SetSize((size[0]-max(bmp_sz[0],100)-50, -1))
-        if font == None: font = wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial", wx.FONTENCODING_SYSTEM)
+        if font == None:
+            font = wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.NORMAL, 
+                           wx.FONTWEIGHT_NORMAL, False, "Arial", 
+                           wx.FONTENCODING_SYSTEM)
         sTxt.SetFont(font)
         sTxt.Wrap(size[0]-max(bmp_sz[0],100)-60)
         if iconFP == "": _span = (1,3)
         else: _span = _span = (1,2)
-        gbs.Add(sTxt, pos=(row,col), span=_span, flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
+        gbs.Add(sTxt, 
+                pos=(row,col), 
+                span=_span, 
+                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
+                border=bw)
         row += 1; col = 0
         okButton = wx.Button(panel, wx.ID_OK, "OK", size=(100,-1))
-        gbs.Add(okButton, pos=(row,col), flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
+        gbs.Add(okButton, 
+                pos=(row,col), 
+                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
+                border=bw)
         col += 1
         if cancel_btn == True:
             cancelButton = wx.Button(panel, wx.ID_CANCEL, "Cancel", size=(100,-1))
-            gbs.Add(cancelButton, pos=(row,col), flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
+            gbs.Add(cancelButton, 
+                    pos=(row,col), 
+                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
+                    border=bw)
         else:
-            gbs.Add( wx.StaticText(panel, -1, ""), pos=(row,col), flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw )
+            gbs.Add(wx.StaticText(panel, -1, ""), 
+                    pos=(row,col), 
+                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
+                    border=bw)
         col += 1
-        gbs.Add( wx.StaticText(panel, -1, ""), pos=(row,col), flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw )
+        gbs.Add(wx.StaticText(panel, -1, ""), 
+                pos=(row,col), 
+                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
+                border=bw)
         
         if okay_btn == False: okButton.Hide()
 
