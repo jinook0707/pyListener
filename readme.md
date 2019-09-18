@@ -1,5 +1,7 @@
 # PyListener
 
+![pyListener Demo](pyListenerDemo.gif)
+
 PyListener is an open-source software written in Python for sound comparison.<br>
 Currently, its main functionality is to listen to sound from microphone and save a recognized sound as WAV file, when it is similar with a loaded template sound.
 
