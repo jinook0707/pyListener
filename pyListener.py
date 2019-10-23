@@ -39,7 +39,7 @@ import sys, wave
 from os import path, getcwd, mkdir 
 from copy import copy
 
-import wx
+import wx, wx.adv
 import wx.lib.scrolledpanel as SPanel 
 import numpy as np
 
@@ -147,6 +147,11 @@ class PyListenerFrame(wx.Frame):
                           pos = w_pos, size = self.w_sz) 
         self.SetBackgroundColour('#333333')
         self.updateFrameSize()
+
+        ### set app icon 
+        self.tbIcon = wx.adv.TaskBarIcon(iconType=wx.adv.TBI_DOCK)
+        icon = wx.Icon("icon.ico")
+        self.tbIcon.SetIcon(icon)
         
         ### create (scroll) panels
         for pk in pi.keys():
