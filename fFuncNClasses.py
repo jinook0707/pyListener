@@ -378,118 +378,124 @@ def show_msg(msg, size=(400,200), title="Message"):
     """
     if DEBUG: print("fFuncNClasses.show_msg()")
     
-    err_msg = PopupDialog(title=title, inString=msg, size=size)
-    err_msg.ShowModal()
-    err_msg.Destroy()
+    dlg = PopupDialog(title=title, inString=msg, size=size)
+    dlg.ShowModal()
+    dlg.Destroy()
 
 #=======================================================================
 
 class PopupDialog(wx.Dialog):
-    """ Class for showing a message to a user 
-
+    """ Class for showing a message to a user.
+    Most simple messages can be dealt using wx.MessageBox.
+    This class was made to use it as a base class for a dialog box
+      with more widgets such as a dialog box to enter
+      subject's information (id, gender, age, prior experiences, etc)
+      before running an experiment.
+    
     Args:
         parent (wx.Frame): Parent object (probably, wx.Frame or wx.Panel).
         id (int): ID of this dialog.
         title (str): Title of the dialog.
-        inString (str): Message to show.
+        msg (str): Message to show.
         iconFP (str): File path of an icon image.
         font (wx.Font): Font of message string.
         pos (None/ tuple): Position to make the dialog window.
         size (tuple): Size of dialog window.
-        okay_btn (bool): Whether to show Ok button.
-        cancel_btn (bool): Whether to show Cancel button.
-        default_ok (bool): Whether Ok button has focus by default (so that 
+        flagOkayBtn (bool): Whether to show Ok button.
+        flagCancelBtn (bool): Whether to show Cancel button.
+        flagDefOK (bool): Whether Ok button has focus by default (so that 
           user can just press enter to dismiss the dialog window).
     """
-    def __init__(self, parent=None, id=-1, title="Message", 
-                 inString="", iconFP="", font=None, pos=None, 
-                 size=(300, 200), okay_btn=True, cancel_btn=False, 
-                 default_ok=False):
-        if DEBUG: print("PopupDialog.show_msg()")
-        
+    def __init__(self, 
+                 parent=None, 
+                 id=-1, 
+                 title="Message", 
+                 msg="", 
+                 iconFP="", 
+                 font=None, 
+                 pos=None, 
+                 size=(300, 200), 
+                 flagOkayBtn=True, 
+                 flagCancelBtn=False, 
+                 flagDefOK=False):
+        if DEBUG: print("PopupDialog.__init__()")
+
+        ### init Dialog
         wx.Dialog.__init__(self, parent, id, title)
         self.SetSize(size)
         if pos == None: self.Center()
         else: self.SetPosition(pos)
         self.Center()
-        
+        # init panel
         panel = sPanel.ScrolledPanel(self, -1, pos=(0,0), size=size)
-        gbs = wx.GridBagSizer(0,0)
-        row = 0; col = 0
-        bw = 5
-       
-        if iconFP != "" and path.isfile(iconFP) == True:
-            bmp = wx.Bitmap(load_img(iconFP))
-            icon_sBmp = wx.StaticBitmap(panel, -1, bmp)
-            gbs.Add(icon_sBmp, 
-                    pos=(row,col), 
-                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, border=bw)
-            bmp_sz = icon_sBmp.GetBitmap().GetSize()
-            col += 1 
-        else:
-            iconFP = ""
-            bmp_sz = (0, 0)
-        sTxt = wx.StaticText(panel, -1, label = inString, pos = (20, 20))
-        sTxt.SetSize((size[0]-max(bmp_sz[0],100)-50, -1))
+
+        ### font setup 
         if font == None:
             font = wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.NORMAL, 
                            wx.FONTWEIGHT_NORMAL, False, "Arial", 
                            wx.FONTENCODING_SYSTEM)
-        sTxt.SetFont(font)
-        sTxt.Wrap(size[0]-max(bmp_sz[0],100)-60)
-        if iconFP == "": _span = (1,3)
-        else: _span = _span = (1,2)
-        gbs.Add(sTxt, 
-                pos=(row,col), 
-                span=_span, 
-                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
-                border=bw)
-        row += 1; col = 0
-        okButton = wx.Button(panel, wx.ID_OK, "OK", size=(100,-1))
-        gbs.Add(okButton, 
-                pos=(row,col), 
-                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
-                border=bw)
-        col += 1
-        if cancel_btn == True:
-            cancelButton = wx.Button(panel, wx.ID_CANCEL, "Cancel", size=(100,-1))
-            gbs.Add(cancelButton, 
-                    pos=(row,col), 
-                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
-                    border=bw)
+
+        ##### [begin] set up widgets -----
+        gbs = wx.GridBagSizer(0,0)
+        row = 0; col = 0
+        ### icon image
+        if iconFP != "" and path.isfile(iconFP) == True:
+            bmp = wx.Bitmap(wxLoadImg(iconFP))
+            icon_sBmp = wx.StaticBitmap(panel, -1, bmp)
+            iconBMPsz = icon_sBmp.GetBitmap().GetSize()
+            add2gbs(gbs, icon_sBmp, (row,col), (1,1))
+            col += 1 
         else:
-            gbs.Add(wx.StaticText(panel, -1, ""), 
-                    pos=(row,col), 
-                    flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
-                    border=bw)
-        col += 1
-        gbs.Add(wx.StaticText(panel, -1, ""), 
-                pos=(row,col), 
-                flag=wx.ALIGN_CENTER_VERTICAL|wx.ALL, 
-                border=bw)
-        
-        if okay_btn == False: okButton.Hide()
-
-        _tmp = sTxt.GetSize()[1]+100
-        if _tmp < size[1]: self.SetSize((size[0], _tmp)) 
-
-        if okay_btn == True:
-            if cancel_btn == False or default_ok == True:
+            iconFP = ""
+            iconBMPsz = (0, 0)
+        ### message to show
+        sTxt = wx.StaticText(panel, -1, label=msg)
+        sTxt.SetSize((size[0]-max(iconBMPsz[0],100)-50, -1))
+        sTxt.SetFont(font)
+        if iconFP == "": sTxt.Wrap(size[0]-30)
+        else: sTxt.Wrap(size[0]-iconBMPsz[0]-30)
+        if iconFP == "": _span = (1,2)
+        else: _span = _span = (1,1)
+        add2gbs(gbs, sTxt, (row,col), _span)
+        ### okay button
+        row += 1; col = 0
+        btn = wx.Button(panel, wx.ID_OK, "OK", size=(100,-1))
+        add2gbs(gbs, btn, (row,col), (1,1))
+        if flagOkayBtn: # okay button is shown
+            if flagCancelBtn == False or flagDefOK == True:
+            # cancel button won't be made or default-okay is set True 
                 panel.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
-                okButton.SetDefault()
-        
+                btn.SetDefault()
+        else:
+            btn.Hide()
+        ### cancel button
+        col += 1
+        if flagCancelBtn:
+            btn = wx.Button(panel, wx.ID_CANCEL, "Cancel", size=(100,-1))
+            add2gbs(gbs, btn, (row,col), (1,1))
+        else:
+            sTxt = wx.StaticText(panel, -1, label=" ")
+            add2gbs(gbs, sTxt, (row,col), (1,1))
+        ### lay out
         panel.SetSizer(gbs)
         gbs.Layout()
         panel.SetupScrolling()
+        ##### [end] set up widgets -----
     
     #-------------------------------------------------------------------
 
     def onKeyPress(self, event):
-        if DEBUG: print("PopupDialog.onKeyPress()")
+        """ Process key-press event
         
+        Args: event (wx.Event)
+        
+        Returns: None
+        """
+        if DEBUG: print("PopupDialog.onKeyPress()")
+
         if event.GetKeyCode() == wx.WXK_RETURN: 
             self.EndModal(wx.ID_OK)
-
+    
 #=======================================================================
 
 if __name__ == '__main__':
